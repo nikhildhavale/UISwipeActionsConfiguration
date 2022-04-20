@@ -8,7 +8,7 @@
 import UIKit
 
 class TableViewController: UITableViewController {
-
+    var numberOfRows = 10
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,7 +25,7 @@ class TableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 10
+        return numberOfRows
     }
 
     
@@ -42,6 +42,13 @@ class TableViewController: UITableViewController {
 
         let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, completion in
             completion(true)
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            if let rowcount = self?.numberOfRows
+            {
+                self?.numberOfRows = rowcount - 1
+            }
+            tableView.endUpdates()
         }
         delete.image = UIImage(systemName:  "trash.circle")
 
